@@ -8,13 +8,10 @@ const supabase = createClient(
 
 export const revalidate = 0
 
-const tableName = 'rolex9_review'
-
-// GET：取得最新 10 条评论
 export async function GET() {
   try {
     const { data, error } = await supabase
-      .from(tableName)
+      .from('rolex9_review')
       .select('*')
       .order('created_at', { ascending: false })
       .limit(10)
@@ -30,7 +27,6 @@ export async function GET() {
   }
 }
 
-// POST：新增评论
 export async function POST(req: Request) {
   try {
     const { name, casino_wallet, games, experiences, rating, others } = await req.json()
@@ -39,7 +35,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    const { error } = await supabase.from(tableName).insert([
+    const { error } = await supabase.from('rolex9_review').insert([
       {
         name,
         casino_wallet,
